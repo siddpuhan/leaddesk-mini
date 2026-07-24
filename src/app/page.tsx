@@ -1,16 +1,25 @@
-import { Container } from "@/components/common/container";
-import { APP_NAME } from "@/constants";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
+import { HeroSection } from "@/components/landing/hero-section";
+import { FeaturesSection } from "@/components/landing/features-section";
+import { LeadFormSection } from "@/components/landing/lead-form-section";
+
+export const metadata = {
+  title: "LeadDesk Mini — Stop Losing Clients",
+  description:
+    "A premium CRM for capturing and managing leads from a single landing page.",
+};
 
 export default function Home() {
   return (
-    <Container className="flex flex-col items-center justify-center py-24">
-      <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-        {APP_NAME}
-      </h1>
-      <p className="mt-4 max-w-2xl text-center text-lg text-muted-foreground">
-        A lightweight CRM to manage your leads, track interactions, and grow
-        your business.
-      </p>
-    </Container>
+    <div className="flex min-h-screen flex-col bg-near-black text-white">
+      <Navbar />
+      <main className="flex-1">
+        <HeroSection />
+        <FeaturesSection />
+        <LeadFormSection />
+      </main>
+      <Footer />
+    </div>
   );
 }

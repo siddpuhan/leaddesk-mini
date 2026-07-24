@@ -1,12 +1,13 @@
-import { Container } from "@/components/common/container";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { AdminDashboard } from "@/components/admin/dashboard";
 
-export default function AdminPage() {
-  return (
-    <Container className="py-12">
-      <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
-      <p className="mt-2 text-muted-foreground">
-        Dashboard coming in a later phase.
-      </p>
-    </Container>
-  );
+export default async function AdminPage() {
+  const { userId } = await auth();
+
+  if (!userId) {
+    redirect("/sign-in");
+  }
+
+  return <AdminDashboard />;
 }

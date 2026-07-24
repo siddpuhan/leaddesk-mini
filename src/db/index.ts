@@ -1,9 +1,16 @@
 import { drizzle } from "drizzle-orm/libsql";
 import { createClient } from "@libsql/client";
 
-const client = createClient({
-  url: process.env.DATABASE_URL!,
-  authToken: process.env.DATABASE_AUTH_TOKEN,
-});
+let cachedDb: ReturnType<typeof drizzle> | null = null;
 
-export const db = drizzle(client);
+export function getDb() {
+  if (cachedDb) return cachedDb;
+
+  const client = createClient({
+    url: process.env.DATABASE_URL!,
+    authToken: process.env.DATABASE_AUTH_TOKEN,
+  });
+
+  cachedDb = drizzle(client);
+  return cachedDb;
+}

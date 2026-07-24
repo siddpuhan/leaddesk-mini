@@ -1,11 +1,11 @@
-import { sqliteTable, integer, text, real } from "drizzle-orm/sqlite-core";
+import { sqliteTable, integer, text } from "drizzle-orm/sqlite-core";
 
 export const leads = sqliteTable("leads", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").notNull(),
   email: text("email").notNull(),
-  budget: real("budget"),
-  message: text("message"),
-  status: text("status").notNull().default("new"),
+  budget: text("budget").notNull(),
+  message: text("message").notNull(),
+  status: text("status").notNull().default("NEW"),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
 });
