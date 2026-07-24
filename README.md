@@ -497,9 +497,9 @@ Inspired by: Linear, Vercel, Clerk Dashboard, Resend, Arc Browser.
 
 **Your Name**
 
-- LinkedIn: [linkedin.com/in/your-profile](https://linkedin.com/in/your-profile)
-- GitHub: [github.com/your-username](https://github.com/your-username)
-- Portfolio: [your-portfolio.dev](https://your-portfolio.dev)
+- LinkedIn: [linkedin.com/in/your-profile](https://www.linkedin.com/in/siddharth-puhan-909038311/)
+- GitHub: [github.com/your-username](https://github.com/siddpuhan)
+- Portfolio: [your-portfolio.dev](https://siddpuhan.vercel.app/)
 
 <br>
 
