@@ -2,20 +2,14 @@
 
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useUser } from "@clerk/nextjs";
-import { UserButton } from "@clerk/nextjs";
 import { toast } from "sonner";
-import {
-  Download,
-  Circle,
-  Phone,
-  ChevronDown,
-} from "lucide-react";
+import { motion } from "framer-motion";
+import { Download, Circle, Phone } from "lucide-react";
 import { StatsCard, StatsCardSkeleton } from "./StatsCard";
 import { SearchBar } from "./SearchBar";
 import { LeadTable, LeadTableSkeleton } from "./LeadTable";
 import { EmptyState } from "./EmptyState";
 import { LeadDialog } from "./LeadDialog";
-import { Sidebar } from "./Sidebar";
 
 interface Lead {
   id: number;
@@ -43,7 +37,6 @@ export function AdminDashboard() {
   const [updatingId, setUpdatingId] = useState<number | null>(null);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     fetch("/api/leads")
@@ -118,15 +111,15 @@ export function AdminDashboard() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-neutral-50">
+      <div className="flex items-center justify-center min-h-[50vh]">
         <div className="text-center">
-          <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <div className="w-14 h-14 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-4">
+            <svg className="w-7 h-7 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
             </svg>
           </div>
-          <h2 className="text-lg font-semibold text-neutral-900">Failed to load dashboard</h2>
-          <p className="mt-1 text-sm text-neutral-500">Could not connect to the server. Please try again.</p>
+          <h2 className="text-base font-semibold text-white">Failed to load dashboard</h2>
+          <p className="mt-1 text-sm text-white/40">Could not connect to the server.</p>
           <button
             onClick={() => {
               setError(false);
@@ -143,7 +136,7 @@ export function AdminDashboard() {
                   toast.error("Failed to load leads");
                 });
             }}
-            className="mt-4 px-4 py-2 text-sm font-medium text-white bg-neutral-900 rounded-lg hover:bg-neutral-800 transition"
+            className="mt-4 px-4 py-2 text-sm font-medium text-white bg-white/10 rounded-lg hover:bg-white/15 transition"
           >
             Retry
           </button>
@@ -153,140 +146,108 @@ export function AdminDashboard() {
   }
 
   return (
-    <div className="admin-scope flex min-h-screen bg-neutral-50">
-      <Sidebar />
+    <div className="max-w-6xl mx-auto space-y-5">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <h2 className="text-xl sm:text-2xl font-bold text-white">
+          {getGreeting()}{isLoaded && user?.firstName ? `, ${user.firstName}` : ""} 👋
+        </h2>
+        <p className="mt-0.5 text-sm text-white/40">
+          Welcome back. Here&apos;s what&apos;s happening with your leads today.
+        </p>
+      </motion.div>
 
-      <div className="flex-1 flex flex-col min-w-0">
-        <header className="sticky top-0 z-40 border-b border-neutral-200 bg-white/80 backdrop-blur-xl">
-          <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="lg:hidden p-2 rounded-lg text-neutral-500 hover:bg-neutral-100"
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                </svg>
-              </button>
-              <div className="hidden sm:block">
-                <h1 className="text-base font-bold text-neutral-900">LeadDesk Mini</h1>
-                <p className="text-[11px] text-neutral-500 -mt-0.5">CRM Dashboard</p>
-              </div>
-            </div>
+      {loading ? (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="grid gap-3 sm:grid-cols-3"
+        >
+          <StatsCardSkeleton />
+          <StatsCardSkeleton />
+          <StatsCardSkeleton />
+        </motion.div>
+      ) : (
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+          className="grid gap-3 sm:grid-cols-3"
+        >
+          <StatsCard
+            label="Total Leads"
+            value={stats.total}
+            icon={Download}
+            description="All time submissions"
+            trend={`+${stats.new} new`}
+            trendUp={stats.new > 0}
+            accent="purple"
+          />
+          <StatsCard
+            label="New Leads"
+            value={stats.new}
+            icon={Circle}
+            description={stats.new > 0 ? "Needs follow-up" : "All caught up"}
+            trend={`${stats.total > 0 ? Math.round((stats.new / stats.total) * 100) : 0}%`}
+            trendUp={stats.new > 0}
+            accent="emerald"
+          />
+          <StatsCard
+            label="Contacted"
+            value={stats.contacted}
+            icon={Phone}
+            description="Followed up with"
+            trend={`${stats.total > 0 ? Math.round((stats.contacted / stats.total) * 100) : 0}% completed`}
+            trendUp={stats.contacted > 0}
+            accent="blue"
+          />
+        </motion.div>
+      )}
 
-            <div className="flex items-center gap-3">
-              {isLoaded && (
-                <UserButton
-                  appearance={{
-                    elements: {
-                      avatarBox: "w-8 h-8 rounded-full border-2 border-neutral-200",
-                      userButtonTrigger: "focus:shadow-outline",
-                    },
-                  }}
-                >
-                </UserButton>
-              )}
-            </div>
-          </div>
-        </header>
+      {!loading && (
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.08 }}
+        >
+          <SearchBar value={search} onChange={setSearch} />
+        </motion.div>
+      )}
 
-        <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
-          <div className="max-w-6xl mx-auto space-y-6">
-            <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-neutral-900">
-                {getGreeting()}{isLoaded && user?.firstName ? `, ${user.firstName}` : ""} 👋
-              </h2>
-              <p className="mt-1 text-sm text-neutral-500">
-                Here&apos;s an overview of your incoming leads.
-              </p>
-            </div>
-
-            {loading ? (
-              <div className="grid gap-4 sm:grid-cols-3">
-                <StatsCardSkeleton />
-                <StatsCardSkeleton />
-                <StatsCardSkeleton />
-              </div>
-            ) : (
-              <div className="grid gap-4 sm:grid-cols-3">
-                <StatsCard
-                  label="Total Leads"
-                  value={stats.total}
-                  icon={Download}
-                  description={`${stats.new} new, ${stats.contacted} contacted`}
-                  accent="blue"
-                />
-                <StatsCard
-                  label="New Leads"
-                  value={stats.new}
-                  icon={Circle}
-                  description={stats.new > 0 ? "Needs follow-up" : "All caught up"}
-                  accent="emerald"
-                />
-                <StatsCard
-                  label="Contacted"
-                  value={stats.contacted}
-                  icon={Phone}
-                  description={stats.total > 0 ? `${Math.round((stats.contacted / stats.total) * 100)}% completed` : "No data"}
-                  accent="amber"
-                />
-              </div>
-            )}
-
-            {!loading && (
-              <div className="flex items-center gap-3">
-                <div className="flex-1">
-                  <SearchBar value={search} onChange={setSearch} />
-                </div>
-              </div>
-            )}
-
-            {loading ? (
-              <div>
-                <div className="mb-4">
-                  <div className="h-5 w-16 bg-neutral-200 rounded animate-pulse" />
-                </div>
-                <LeadTableSkeleton />
-              </div>
-            ) : filtered.length === 0 ? (
-              <EmptyState />
-            ) : (
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <p className="text-sm text-neutral-500">
-                    {filtered.length} lead{filtered.length !== 1 ? "s" : ""}
-                    {search ? ` matching "${search}"` : ""}
-                  </p>
-                </div>
-                <LeadTable
-                  leads={filtered}
-                  onStatusChange={handleStatusChange}
-                  onView={handleView}
-                  updatingId={updatingId}
-                />
-              </div>
-            )}
-          </div>
-        </main>
-
-        <footer className="border-t border-neutral-200 bg-white px-4 sm:px-6 lg:px-8 py-4">
-          <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-            <p className="text-xs text-neutral-400">
-              LeadDesk Mini — CRM Dashboard
+      {loading ? (
+        <div>
+          <div className="h-4 w-16 bg-white/5 rounded animate-pulse mb-3" />
+          <LeadTableSkeleton />
+        </div>
+      ) : filtered.length === 0 ? (
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <EmptyState />
+        </motion.div>
+      ) : (
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.12 }}
+        >
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-sm text-white/40">
+              {filtered.length} lead{filtered.length !== 1 ? "s" : ""}
+              {search ? ` matching &quot;${search}&quot;` : ""}
             </p>
-            <div className="flex items-center gap-3 text-xs text-neutral-400">
-              <span>Powered by</span>
-              <span className="font-medium text-neutral-500">Next.js</span>
-              <span className="text-neutral-300">·</span>
-              <span className="font-medium text-neutral-500">Clerk</span>
-              <span className="text-neutral-300">·</span>
-              <span className="font-medium text-neutral-500">Turso</span>
-              <span className="text-neutral-300">·</span>
-              <span className="font-medium text-neutral-500">Drizzle</span>
-            </div>
           </div>
-        </footer>
-      </div>
+          <LeadTable
+            leads={filtered}
+            onStatusChange={handleStatusChange}
+            onView={handleView}
+            updatingId={updatingId}
+          />
+        </motion.div>
+      )}
 
       <LeadDialog
         lead={selectedLead}

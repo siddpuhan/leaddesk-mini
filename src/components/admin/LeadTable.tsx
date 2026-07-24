@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import {
   Table,
   TableBody,
@@ -52,56 +53,57 @@ export function LeadTable({
   updatingId,
 }: LeadTableProps) {
   return (
-    <div className="rounded-xl border border-neutral-200 bg-white overflow-hidden shadow-sm">
+    <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] overflow-hidden">
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
-            <TableRow className="bg-neutral-50 border-b border-neutral-200">
-              <TableHead className="text-xs font-semibold text-neutral-600 uppercase tracking-wider py-3.5 pl-5">
+            <TableRow className="border-b border-white/[0.06]">
+              <TableHead className="text-xs font-semibold text-white/40 uppercase tracking-wider py-3.5 pl-5">
                 Lead
               </TableHead>
-              <TableHead className="text-xs font-semibold text-neutral-600 uppercase tracking-wider py-3.5 hidden sm:table-cell">
+              <TableHead className="text-xs font-semibold text-white/40 uppercase tracking-wider py-3.5 hidden sm:table-cell">
                 Budget
               </TableHead>
-              <TableHead className="text-xs font-semibold text-neutral-600 uppercase tracking-wider py-3.5">
+              <TableHead className="text-xs font-semibold text-white/40 uppercase tracking-wider py-3.5">
                 Status
               </TableHead>
-              <TableHead className="text-xs font-semibold text-neutral-600 uppercase tracking-wider py-3.5 hidden md:table-cell">
+              <TableHead className="text-xs font-semibold text-white/40 uppercase tracking-wider py-3.5 hidden md:table-cell">
                 Submitted
               </TableHead>
-              <TableHead className="text-xs font-semibold text-neutral-600 uppercase tracking-wider py-3.5 pr-5 w-12">
+              <TableHead className="py-3.5 pr-5 w-12">
                 <span className="sr-only">Actions</span>
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {leads.map((lead) => (
+            {leads.map((lead, i) => (
               <TableRow
                 key={lead.id}
-                className="border-b border-neutral-100 hover:bg-neutral-50 transition"
+                className="border-b border-white/[0.04] hover:bg-white/[0.02] transition cursor-pointer"
+                onClick={() => onView(lead)}
               >
                 <TableCell className="py-3.5 pl-5">
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-neutral-100 flex items-center justify-center shrink-0">
-                      <User size={16} className="text-neutral-500" />
+                    <div className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center shrink-0">
+                      <User size={16} className="text-white/40" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-neutral-900 truncate">
+                      <p className="text-sm font-medium text-white truncate">
                         {lead.name}
                       </p>
-                      <p className="text-xs text-neutral-500 truncate">
+                      <p className="text-xs text-white/40 truncate">
                         {lead.email}
                       </p>
                     </div>
                   </div>
                 </TableCell>
                 <TableCell className="py-3.5 hidden sm:table-cell">
-                  <span className="text-sm font-medium text-neutral-800">
+                  <span className="text-sm font-medium text-white/80">
                     {lead.budget}
                   </span>
                 </TableCell>
                 <TableCell className="py-3.5">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
                     <StatusBadge status={lead.status} />
                     <StatusDropdown
                       value={lead.status}
@@ -111,11 +113,11 @@ export function LeadTable({
                   </div>
                 </TableCell>
                 <TableCell className="py-3.5 hidden md:table-cell">
-                  <span className="text-sm text-neutral-500">
+                  <span className="text-sm text-white/40">
                     {getRelativeTime(lead.createdAt)}
                   </span>
                 </TableCell>
-                <TableCell className="py-3.5 pr-5">
+                <TableCell className="py-3.5 pr-5" onClick={(e) => e.stopPropagation()}>
                   <ActionsMenu
                     onView={() => onView(lead)}
                     email={lead.email}
@@ -132,23 +134,23 @@ export function LeadTable({
 
 export function LeadTableSkeleton() {
   return (
-    <div className="rounded-xl border border-neutral-200 bg-white overflow-hidden shadow-sm">
+    <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] overflow-hidden">
       <Table>
         <TableHeader>
-          <TableRow className="bg-neutral-50 border-b border-neutral-200">
+          <TableRow className="border-b border-white/[0.06]">
             {Array.from({ length: 5 }).map((_, i) => (
               <TableHead key={i} className="py-3.5 first:pl-5 last:pr-5">
-                <div className="h-3 w-16 bg-neutral-200 rounded animate-pulse" />
+                <div className="h-3 w-16 bg-white/5 rounded animate-pulse" />
               </TableHead>
             ))}
           </TableRow>
         </TableHeader>
         <TableBody>
           {Array.from({ length: 5 }).map((_, i) => (
-            <TableRow key={i} className="border-b border-neutral-100">
+            <TableRow key={i} className="border-b border-white/[0.04]">
               {Array.from({ length: 5 }).map((_, j) => (
                 <TableCell key={j} className="py-4 first:pl-5 last:pr-5">
-                  <div className="h-4 bg-neutral-200 rounded animate-pulse w-3/4" />
+                  <div className="h-4 bg-white/5 rounded animate-pulse w-3/4" />
                 </TableCell>
               ))}
             </TableRow>

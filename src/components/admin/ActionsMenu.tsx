@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Eye, Mail, MoreHorizontal } from "lucide-react";
+import { Eye, Mail, MoreHorizontal, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 
 interface ActionsMenuProps {
@@ -28,19 +28,23 @@ export function ActionsMenu({ onView, email }: ActionsMenuProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="flex items-center justify-center w-8 h-8 rounded-lg text-neutral-400 hover:text-neutral-700 hover:bg-neutral-100 transition">
+        <button className="flex items-center justify-center w-8 h-8 rounded-lg text-white/30 hover:text-white hover:bg-white/5 transition">
           <MoreHorizontal size={16} />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-40">
-        <DropdownMenuItem onClick={onView}>
+      <DropdownMenuContent align="end" className="w-44 bg-[#1a1a1a] border-white/[0.08]">
+        <DropdownMenuItem onClick={onView} className="text-white/80 hover:text-white hover:bg-white/5">
           <Eye size={15} />
-          View details
+          View Lead
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={copyEmail}>
+        <DropdownMenuItem onClick={copyEmail} className="text-white/80 hover:text-white hover:bg-white/5">
           <Mail size={15} />
-          Copy email
+          Copy Email
+        </DropdownMenuItem>
+        <DropdownMenuSeparator className="bg-white/[0.06]" />
+        <DropdownMenuItem className="text-white/40 hover:text-white hover:bg-white/5" disabled>
+          <RefreshCw size={15} />
+          Change Status
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

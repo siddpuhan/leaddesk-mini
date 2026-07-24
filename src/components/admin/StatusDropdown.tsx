@@ -14,11 +14,6 @@ interface StatusDropdownProps {
   disabled?: boolean;
 }
 
-const statusStyles: Record<string, string> = {
-  NEW: "border-blue-200 bg-blue-50 text-blue-700",
-  CONTACTED: "border-emerald-200 bg-emerald-50 text-emerald-700",
-};
-
 export function StatusDropdown({
   value,
   onChange,
@@ -31,15 +26,19 @@ export function StatusDropdown({
       disabled={disabled}
     >
       <SelectTrigger
-        className={`w-[130px] h-8 text-xs font-medium border rounded-md ${statusStyles[value]}`}
+        className={`w-[100px] h-7 text-xs font-medium border rounded-md bg-transparent ${
+          value === "NEW"
+            ? "border-emerald-500/20 text-emerald-400"
+            : "border-blue-500/20 text-blue-400"
+        }`}
       >
         <SelectValue />
       </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="NEW" className="text-xs">
+      <SelectContent className="bg-[#1a1a1a] border-white/[0.08] text-white">
+        <SelectItem value="NEW" className="text-xs text-white/80 hover:text-white hover:bg-white/5">
           NEW
         </SelectItem>
-        <SelectItem value="CONTACTED" className="text-xs">
+        <SelectItem value="CONTACTED" className="text-xs text-white/80 hover:text-white hover:bg-white/5">
           CONTACTED
         </SelectItem>
       </SelectContent>

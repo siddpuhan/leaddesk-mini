@@ -1,72 +1,85 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import type { LucideIcon } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface StatsCardProps {
   label: string;
   value: number;
   icon: LucideIcon;
   description: string;
-  accent: "emerald" | "blue" | "amber";
+  trend: string;
+  trendUp: boolean;
+  accent: "purple" | "emerald" | "blue";
 }
 
-const accentStyles = {
+const accentStyles: Record<string, { icon: string; dot: string }> = {
+  purple: {
+    icon: "bg-purple-500/10 text-purple-400",
+    dot: "bg-purple-400",
+  },
   emerald: {
-    icon: "bg-emerald-100 text-emerald-600",
-    text: "text-emerald-600",
+    icon: "bg-emerald-500/10 text-emerald-400",
+    dot: "bg-emerald-400",
   },
   blue: {
-    icon: "bg-blue-100 text-blue-600",
-    text: "text-blue-600",
-  },
-  amber: {
-    icon: "bg-amber-100 text-amber-600",
-    text: "text-amber-600",
+    icon: "bg-blue-500/10 text-blue-400",
+    dot: "bg-blue-400",
   },
 };
+
+const fallbackStyle = { icon: "bg-white/5 text-white/40", dot: "bg-white/40" };
 
 export function StatsCard({
   label,
   value,
   icon: Icon,
   description,
+  trend,
+  trendUp,
   accent,
 }: StatsCardProps) {
-  const style = accentStyles[accent];
+  const style = accentStyles[accent] ?? fallbackStyle;
 
   return (
-    <Card className="bg-white border-neutral-200 transition-shadow hover:shadow-md">
-      <CardContent className="p-5">
-        <div className="flex items-start justify-between">
-          <div className="space-y-1">
-            <p className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
-              {label}
-            </p>
-            <p className="text-3xl font-bold text-neutral-900">{value}</p>
-            <p className="text-xs text-neutral-500">{description}</p>
-          </div>
-          <div className={`rounded-lg p-2.5 ${style.icon}`}>
-            <Icon size={20} />
+    <motion.div
+      whileHover={{ y: -2 }}
+      className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-5 transition-shadow hover:shadow-lg hover:shadow-purple-500/5 hover:border-white/[0.1]"
+    >
+      <div className="flex items-start justify-between">
+        <div className="space-y-1.5">
+          <p className="text-xs font-medium text-white/40 uppercase tracking-wider">
+            {label}
+          </p>
+          <p className="text-3xl font-bold tracking-tight text-white">
+            {value}
+          </p>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-white/40">{description}</span>
+            <span className="flex items-center gap-0.5 text-xs font-medium text-emerald-400">
+              <ArrowUpRight size={12} />
+              {trend}
+            </span>
           </div>
         </div>
-      </CardContent>
-    </Card>
+        <div className={`rounded-lg p-2.5 ${style.icon}`}>
+          <Icon size={20} />
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
 export function StatsCardSkeleton() {
   return (
-    <Card className="bg-white border-neutral-200">
-      <CardContent className="p-5">
-        <div className="flex items-start justify-between">
-          <div className="space-y-2">
-            <Skeleton className="h-3 w-20 bg-neutral-200" />
-            <Skeleton className="h-8 w-12 bg-neutral-200" />
-            <Skeleton className="h-3 w-24 bg-neutral-200" />
-          </div>
-          <Skeleton className="h-10 w-10 rounded-lg bg-neutral-200" />
+    <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-5">
+      <div className="flex items-start justify-between">
+        <div className="space-y-2">
+          <div className="h-3 w-20 bg-white/5 rounded animate-pulse" />
+          <div className="h-8 w-12 bg-white/5 rounded animate-pulse" />
+          <div className="h-3 w-24 bg-white/5 rounded animate-pulse" />
         </div>
-      </CardContent>
-    </Card>
+        <div className="h-10 w-10 rounded-lg bg-white/5 animate-pulse" />
+      </div>
+    </div>
   );
 }
