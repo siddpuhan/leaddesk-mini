@@ -495,7 +495,7 @@ Inspired by: Linear, Vercel, Clerk Dashboard, Resend, Arc Browser.
 
 ## Author
 
-**Your Name**
+**Siddharth Puhan**
 
 - LinkedIn: (https://www.linkedin.com/in/siddharth-puhan-909038311/)
 - GitHub: (https://github.com/siddpuhan)
