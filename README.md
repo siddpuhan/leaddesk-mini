@@ -34,6 +34,12 @@
   <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT License">
 </p>
 
+<p align="center">
+  🌐 <a href="https://mini-lead-desk.vercel.app"><strong>Live Demo</strong></a> &nbsp;•&nbsp;
+  📹 <a href="https://www.loom.com/share/833342b9568e426b86c4f7a2f8fb6758"><strong>Loom Walkthrough</strong></a> &nbsp;•&nbsp;
+  💻 <a href="https://github.com/siddpuhan/lead-desk-mini"><strong>GitHub Repository</strong></a>
+</p>
+
 <br>
 
 ---
@@ -73,6 +79,28 @@ It exists as both a **production-ready starter** and a **learning resource** for
 2. The lead is validated with **Zod**, stored in **Turso** via **Drizzle ORM**, and confirmed with a toast notification.
 3. An administrator signs in through **Clerk** at `/admin`, where they can view, search, and update lead statuses.
 4. **Analytics** charts show lead growth and distribution. **Settings** provides account management via Clerk's UserProfile.
+
+<br>
+
+---
+
+<br>
+
+## 🎥 Project Demo
+
+[![Watch Project Demo](public/screenshots/landing-page.png)](https://www.loom.com/share/833342b9568e426b86c4f7a2f8fb6758)
+
+> 🎬 Click the image above to watch a complete walkthrough of LeadDesk Mini.
+
+The video demonstrates:
+- Landing Page
+- Responsive Design
+- Lead Submission Flow
+- Clerk Authentication
+- Admin Dashboard
+- Search & Lead Management
+- Analytics
+- Settings
 
 <br>
 
