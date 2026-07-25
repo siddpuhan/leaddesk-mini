@@ -245,41 +245,31 @@ src/
 
 ## Screenshots
 
-> Add actual screenshots here by replacing `url-to-screenshot` with your deployed URLs.
-
 <details>
 <summary><strong>Landing Page</strong></summary>
 
-```
-[Landing Page Screenshot]
-```
+![Landing Page](/screenshots/landing-page.png)
 
 </details>
 
 <details>
 <summary><strong>Admin Dashboard</strong></summary>
 
-```
-[Admin Dashboard Screenshot]
-```
+![Admin Dashboard](/screenshots/admin-dashboard.png)
 
 </details>
 
 <details>
 <summary><strong>Analytics</strong></summary>
 
-```
-[Analytics Page Screenshot]
-```
+![Analytics](/screenshots/analytics.png)
 
 </details>
 
 <details>
 <summary><strong>Settings</strong></summary>
 
-```
-[Settings Page Screenshot]
-```
+![Settings](/screenshots/settings.png)
 
 </details>
 
