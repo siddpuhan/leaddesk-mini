@@ -248,28 +248,36 @@ src/
 <details>
 <summary><strong>Landing Page</strong></summary>
 
-![Landing Page](/screenshots/landing-page.png)
+<br>
+
+![Landing Page](public/screenshots/landing-page.png)
 
 </details>
 
 <details>
 <summary><strong>Admin Dashboard</strong></summary>
 
-![Admin Dashboard](/screenshots/admin-dashboard.png)
+<br>
+
+![Admin Dashboard](public/screenshots/admin-dashboard.png)
 
 </details>
 
 <details>
 <summary><strong>Analytics</strong></summary>
 
-![Analytics](/screenshots/analytics.png)
+<br>
+
+![Analytics](public/screenshots/analytics.png)
 
 </details>
 
 <details>
 <summary><strong>Settings</strong></summary>
 
-![Settings](/screenshots/settings.png)
+<br>
+
+![Settings](public/screenshots/settings.png)
 
 </details>
 
