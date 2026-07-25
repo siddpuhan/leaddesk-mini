@@ -478,7 +478,7 @@ Inspired by: Linear, Vercel, Clerk Dashboard, Resend, Arc Browser.
 
 ### Configure Clerk
 
-- Add your production URL (e.g. `https://your-app.vercel.app`) to the Clerk dashboard under **Sites**.
+- Add your production URL (`https://mini-lead-desk.vercel.app`) to the Clerk dashboard under **Sites**.
 - Ensure the **Clerk middleware matcher** in `src/proxy.ts` includes all required routes.
 
 ### Configure Turso
